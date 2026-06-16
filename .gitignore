@@ -1,0 +1,6 @@
+# The dashboard build artifact is generated from metrics.jsonl — don't commit it.
+dashboard/data/metrics.js
+
+# Local editor / OS noise
+.DS_Store
+*.swp
