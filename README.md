@@ -23,9 +23,9 @@ commented file so you can see the shape of the thing instead of guessing at it.
    # or, per-shell: export NP_CONTENT_DIR="$HOME/Code/nervepack-content"
    ```
 3. **Make it yours.** Replace every `example-*` file with your real content. Rename the
-   example skills to `np-kb-<topic>` and `np-env-<thing>`, drop in your real sources,
-   delete the demo episodic/playbook/strategy files (the engine regenerates those from
-   your actual sessions anyway).
+   example skills to `np-kb-<topic>` and `np-env-<thing>`, populate the topic folders
+   in `wiki/topics/` with your real sources, and delete the demo memory files under
+   `memory/` (the engine regenerates those from your actual sessions anyway).
 4. **Relink and go.** Run `engine/setup/30-link-skills.sh` so your skills get delivered
    into every session.
 
@@ -40,17 +40,22 @@ top level (don't nest them under a `content/` folder).
 | Path | What goes here | Who writes it |
 |---|---|---|
 | `skills/np-kb-*`, `skills/np-env-*` | Your personal knowledge + environment skills (sites, infra, machine setup, brand) | **You** |
-| `sources/<topic>/` | Curated, version-pinned technical reference, trimmed to what you actually consult | You, via the ingest protocol |
-| `wiki/entities/`, `wiki/concepts/` | Synthesis pages that cross-link your skills and sources | You / the agent |
-| `episodic/<topic>.md` | Auto-captured working memory ("what we did, what we decided") | The `episodic-maintain` cron |
-| `playbooks/<topic>.md` | Auto-distilled failure to recovery interventions, enforced at the tool call | The cron (don't hand-edit) |
-| `strategies/<topic>.md` | Auto-distilled success patterns, surfaced as advice | The cron (don't hand-edit) |
+| `wiki/topics/<topic>/` | One folder per topic: a `<topic>.md` synthesis page (`kind: topic`) plus co-located source references (`kind: reference`) | You, via the ingest protocol |
+| `wiki/concepts/<concept>/` | One folder per concept: a `<concept>.md` synthesis page (`kind: concept`) cross-linking topics, skills, and sources | You / the agent |
+| `memory/episodic/<topic>.md` | Auto-captured working memory ("what we did, what we decided") | The `episodic-maintain` cron |
+| `memory/playbooks/<topic>.md` | Auto-distilled failure-to-recovery interventions, enforced at the tool call | The cron (don't hand-edit) |
+| `memory/strategies/<topic>.md` | Auto-distilled success patterns, surfaced as advice | The cron (don't hand-edit) |
 | `dashboard/data/metrics.jsonl` | Per-session performance the evaluator scores and the dashboard renders | The evaluator (don't hand-edit) |
-| `docs/specs/`, `docs/superpowers/` | Your design specs and plans (the brainstorm + planning output) | You |
+| `docs/superpowers/specs/` | Your design specs and plans (the brainstorm + planning output) | You |
 | `log.md` | Append-only audit of everything that lands here | All of the above |
 
-The three agent-owned layers (`episodic/`, `playbooks/`, `strategies/`) are filled in
-here only so you can see the format. In a real overlay you let the engine write them.
+Note that there is **no top-level `sources/` directory** in the canonical layout — sources
+live inside their topic folder in `wiki/topics/<topic>/`. And there is **no `wiki/entities/`**
+— entities were merged into topic folders; cross-cutting ideas use `wiki/concepts/`.
+
+The three agent-owned layers (`memory/episodic/`, `memory/playbooks/`, `memory/strategies/`)
+are filled in here only so you can see the format. In a real overlay you let the engine
+write them.
 
 ## A note on what NOT to put here vs. the engine
 
