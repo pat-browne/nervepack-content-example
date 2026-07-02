@@ -57,6 +57,24 @@ The three agent-owned layers (`memory/episodic/`, `memory/playbooks/`, `memory/s
 are filled in here only so you can see the format. In a real overlay you let the engine
 write them.
 
+## Sharing an overlay with a team
+
+This same shape works as a **team overlay**. A team keeps one shared repo laid out
+exactly like this one (shared skills, playbooks, strategies, wiki) and each member
+points at it *above* their personal overlay:
+
+```bash
+echo "$HOME/Code/team-nervepack-content" > ~/.config/nervepack/team-dir
+```
+
+The engine reads `team > personal > engine`, highest first. A team skill or playbook
+shadows a personal one of the same name, and the topic layers combine per the engine's
+`team.merge` setting (`override`, `concatenate`, or `team-only`). Everything you
+capture still writes to your *personal* overlay, so a shared baseline never fills up
+with one person's session memory. To push something to the team on purpose, say "save
+this to the team layer." The team overlay is optional and dormant until you set
+`team-dir`.
+
 ## A note on what NOT to put here vs. the engine
 
 Personal data lives here, never in the engine. The engine repo has a CI guard that

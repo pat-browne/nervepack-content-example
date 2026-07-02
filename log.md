@@ -7,8 +7,8 @@
 
 ## [2026-06-16] setup | initialized example content overlay from nervepack-content-example
 
-## [2026-06-16] source | add example-reference under sources/example-topic/
+## [2026-06-16] source | add example-reference under wiki/topics/example-topic/
 
 ## [2026-06-16] skill | add np-kb-example-design-system (design tokens for acme-widget)
 
-## [2026-06-16] wiki | add example-entity + example-concept synthesis pages
+## [2026-06-16] wiki | add example-topic + example-concept synthesis pages
