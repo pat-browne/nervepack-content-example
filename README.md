@@ -43,8 +43,7 @@ top level (don't nest them under a `content/` folder).
 | `wiki/topics/<topic>/` | One folder per topic: a `<topic>.md` synthesis page (`kind: topic`) plus co-located source references (`kind: reference`) | You, via the ingest protocol |
 | `wiki/concepts/<concept>/` | One folder per concept: a `<concept>.md` synthesis page (`kind: concept`) cross-linking topics, skills, and sources | You / the agent |
 | `memory/episodic/<topic>.md` | Auto-captured working memory ("what we did, what we decided") | The `episodic-maintain` cron |
-| `memory/playbooks/<topic>.md` | Auto-distilled failure-to-recovery interventions, enforced at the tool call | The cron (don't hand-edit) |
-| `memory/strategies/<topic>.md` | Auto-distilled success patterns, surfaced as advice | The cron (don't hand-edit) |
+| `memory/lessons/<topic>.md` | Auto-distilled failure + success patterns, tagged `provenance: failure\|success`, with an optional `enforce` block (independent of provenance) that gates the tool call | The `episodic-maintain` cron (don't hand-edit) |
 | `dashboard/data/metrics.jsonl` | Per-session performance the evaluator scores and the dashboard renders | The evaluator (don't hand-edit) |
 | `docs/superpowers/specs/` | Your design specs and plans (the brainstorm + planning output) | You |
 | `log.md` | Append-only audit of everything that lands here | All of the above |
@@ -53,21 +52,20 @@ Note that there is **no top-level `sources/` directory** in the canonical layout
 live inside their topic folder in `wiki/topics/<topic>/`. And there is **no `wiki/entities/`**
 — entities were merged into topic folders; cross-cutting ideas use `wiki/concepts/`.
 
-The three agent-owned layers (`memory/episodic/`, `memory/playbooks/`, `memory/strategies/`)
-are filled in here only so you can see the format. In a real overlay you let the engine
-write them.
+The two agent-owned layers (`memory/episodic/`, `memory/lessons/`) are filled in here
+only so you can see the format. In a real overlay you let the engine write them.
 
 ## Sharing an overlay with a team
 
 This same shape works as a **team overlay**. A team keeps one shared repo laid out
-exactly like this one (shared skills, playbooks, strategies, wiki) and each member
-points at it *above* their personal overlay:
+exactly like this one (shared skills, lessons, wiki) and each member points at it
+*above* their personal overlay:
 
 ```bash
 echo "$HOME/Code/team-nervepack-content" > ~/.config/nervepack/team-dir
 ```
 
-The engine reads `team > personal > engine`, highest first. A team skill or playbook
+The engine reads `team > personal > engine`, highest first. A team skill or lesson
 shadows a personal one of the same name, and the topic layers combine per the engine's
 `team.merge` setting (`override`, `concatenate`, or `team-only`). Everything you
 capture still writes to your *personal* overlay, so a shared baseline never fills up
